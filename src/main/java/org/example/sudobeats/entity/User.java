@@ -3,6 +3,7 @@ package org.example.sudobeats.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.Instant;
@@ -45,6 +46,11 @@ public class User {
     @CreationTimestamp
     @Column(name = "created_at", updatable = false, nullable = false)
     private Instant createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at", nullable = false)
+    private Instant updatedAt;
+
     @Column(name = "current_streak", nullable = false)
     @Builder.Default
     private int currentStreak = 0;

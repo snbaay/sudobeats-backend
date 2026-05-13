@@ -96,6 +96,11 @@ public class GlobalExceptionHandler {
         return respond(HttpStatus.BAD_REQUEST, message);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiResponse<Void>> handleIllegalArgument(IllegalArgumentException ex) {
+        return respond(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
     // ── 409 Optimistic Lock ───────────────────────────────────────────────────
 
     /**
