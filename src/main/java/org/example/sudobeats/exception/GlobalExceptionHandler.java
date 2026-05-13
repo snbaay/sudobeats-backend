@@ -118,12 +118,24 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Void>> handleUnexpected(Exception ex) {
         log.error("Unhandled exception", ex);
-        return respond(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
+        return respond(HttpStatus.INTERNAL_SERVER_ERROR, "Server error: " + rootCause(ex));
     }
 
     // ─────────────────────────────────────────────────────────────────────────
 
     private ResponseEntity<ApiResponse<Void>> respond(HttpStatus status, String message) {
         return ResponseEntity.status(status).body(ApiResponse.error(message));
+    }
+
+    private String rootCause(Exception ex) {
+        Throwable current = ex;
+        while (current.getCause() != null) {
+            current = current.getCause();
+        }
+        String message = current.getMessage();
+        if (message == null || message.isBlank()) {
+            message = ex.getMessage();
+        }
+        return current.getClass().getSimpleName() + ": " + message;
     }
 }
