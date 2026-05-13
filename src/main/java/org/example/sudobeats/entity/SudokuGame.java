@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -81,6 +82,28 @@ public class SudokuGame {
 
     @Column(name = "completed_at")
     private Instant completedAt;
+    @Column(name = "soundpack", nullable = false, length = 32)
+    @Builder.Default
+    private String soundpack = "synthwave";
+
+    @Column(name = "mode", nullable = false, length = 24)
+    @Builder.Default
+    private String mode = "CLASSIC";
+
+    @Column(name = "daily", nullable = false)
+    @Builder.Default
+    private boolean daily = false;
+
+    @Column(name = "hints_used", nullable = false)
+    @Builder.Default
+    private int hintsUsed = 0;
+
+    @Column(name = "mistakes", nullable = false)
+    @Builder.Default
+    private int mistakes = 0;
+
+    @Column(name = "completion_time_seconds")
+    private Integer completionTimeSeconds;
 
     /**
      * Optimistic-lock version column.

@@ -29,6 +29,11 @@ public interface SudokuGameRepository extends JpaRepository<SudokuGame, UUID> {
     /** Fetch a game and eagerly load its user to avoid N+1 on the controller layer. */
     @Query("SELECT g FROM SudokuGame g JOIN FETCH g.user WHERE g.id = :id")
     Optional<SudokuGame> findByIdWithUser(@Param("id") UUID id);
-
+    @Query("""
+      select g from SudokuGame g
+      where g.completedAt is not null and g.difficulty = :difficulty
+      order by g.completionTimeSeconds asc, g.mistakes asc, g.completedAt asc
+      """)
+    List<SudokuGame> leaderboard(@Param("difficulty") String difficulty);
     long countByUserIdAndDifficulty(UUID userId, Difficulty difficulty);
 }
